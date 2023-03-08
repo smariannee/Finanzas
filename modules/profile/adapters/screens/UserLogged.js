@@ -28,6 +28,7 @@ export default function UserLogged(props) {
   }
   
   const uploadPhotoProfile = () => {
+    setShowConfirmationAlert(false)
     const storage = getStorage();
     getDownloadURL(ref(storage, `profile_pictures/${user.uid}`))
       .then((url) => {
