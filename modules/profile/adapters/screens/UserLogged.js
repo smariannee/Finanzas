@@ -7,11 +7,16 @@ import { Avatar } from '@rneui/themed';
 import { getAuth, updateProfile } from "firebase/auth";
 import * as Imagepicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import SuccessAlert from '../../../../kernel/components/SuccessAlert'
+import ErrorAlert from '../../../../kernel/components/ErrorAlert'
 
 export default function UserLogged(props) {
   const auth = getAuth();
   const { user } = props;
   const [show, setShow] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [showConfirmationAlert, setShowConfirmationAlert] = useState(false);
 
   const uploadImage = async (uri) => {
     setShow(true);
@@ -21,6 +26,24 @@ export default function UserLogged(props) {
     const storageRef = ref(storage, `profile_pictures/${user.uid}`);
     return uploadBytes(storageRef, _bodyBlob);
   }
+  
+  const uploadPhotoProfile = () => {
+    const storage = getStorage();
+    getDownloadURL(ref(storage, `profile_pictures/${user.uid}`))
+      .then((url) => {
+        updateProfile(auth.currentUser, {
+          photoURL: url
+        })
+        setShow(false);
+        setShowSuccessAlert(true);
+        setTimeout(() => {
+          setShowSuccessAlert(false);
+        }, 3000);
+      })
+      .catch((err) => {
+        console.log("Error al obtener la imagen", err);
+      });
+  };
 
   const changeAvatar = async () => {
     const resultPermission = await Permissions.askAsync(Permissions.CAMERA);
@@ -32,29 +55,22 @@ export default function UserLogged(props) {
         //base64: true, 
       })
       if (!result.canceled) {
-        uploadImage(result.assets[0].uri).then(() => {
+        uploadImage(result.assets[0].uri)
+        .then((response) => {
           uploadPhotoProfile();
         }).catch((err) => {
           console.log("error al obtener imagen", err);
+          setShow(false);
+          setShowErrorAlert(true);
+          setTimeout(() => {
+            setShowErrorAlert(false);
+          }, 3000);
         })
       }
     } else {
       console.log("Es necesario aceptar los permisos de la galeria");
     }
   }
-
-  const uploadPhotoProfile = () => {
-    const storage = getStorage();
-    getDownloadURL(ref(storage, `profile_pictures/${user.uid}`))
-      .then((url) => {
-        updateProfile(auth.currentUser, {
-          photoURL: url
-        })
-      })
-      .catch((err) => {
-        console.log("Error al obtener la imagen", err);
-      });
-  };
 
   return (
     <View style={styles.container}>
@@ -83,6 +99,8 @@ export default function UserLogged(props) {
         onPress={() => auth.signOut()}
       />
       <Loading show={show} text="Actualizando" />
+      <SuccessAlert show={showSuccessAlert} text="Confirmado" />
+      <ErrorAlert show={showErrorAlert} text="Error" />
     </View>
   )
 }
