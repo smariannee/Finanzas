@@ -39,9 +39,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        color: '#007bff',
-        textTransform: 'uppercase',
-        marginTop: 10,
+        color: 'black',
+        marginTop: 20,
         textAlign: 'center'
     },
 })

@@ -7,8 +7,8 @@ export default function ErrorAlert(props) {
   return (
     <Overlay 
         isVisible={show}
-        windowBackgroundColor="rgba(255, 255, 255, .5)"
-        overlayBackgroundColor="red"
+        windowBackgroundColor='rgba(0,0,0,0.5)'
+        overlayBackgroundColor='transparent'
         overlayStyle={styles.overlay}
     >
         <View style={styles.container}>
@@ -24,11 +24,14 @@ export default function ErrorAlert(props) {
 
 const styles = StyleSheet.create({
     overlay: {
-        height: 100,
-        width: 200,
-        borderRadius: 10,
-        borderColor: 'red',
+        height: 160,
+        width: 250,
+        backgroundColor: '#fff',
+        borderColor: '#fff',
         borderWidth: 2,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     container: {
         flex: 1,
@@ -36,12 +39,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     img: {
-        width: 70,
-        height: 70,
+        width: 90,
+        height: 90,
     },
     text: {
-        color: 'white',
-        fontWeight: 'bold',
+        color: 'black',
         marginTop: 10,
+        textAlign: 'center'
     }
 })

@@ -7,26 +7,26 @@ export default function ConfirmationAlert(props) {
   return (
     <Overlay 
         isVisible={show}
-        windowBackgroundColor="rgba(255, 255, 255, .5)"
-        overlayBackgroundColor="green"
+        windowBackgroundColor='rgba(0,0,0,0.5)'
+        overlayBackgroundColor='transparent'
         overlayStyle={styles.overlay}
     >
         <View style={styles.container}>
             <Image
-                source={{ uri: 'https://cdn.dribbble.com/users/251873/screenshots/9288094/13539-sign-for-error-or-explanation-alert.gif' }}
+                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Blinking_warning.gif' }}
                 style={styles.img}
             />
             {text && <Text style={styles.text}>{text}</Text>}
             <View style={styles.buttons}>
                 <Button
                     title="Aceptar"
-                    buttonStyle={styles.button}
+                    buttonStyle={{ backgroundColor: 'green', borderRadius: 5 }}
                     containerStyle={styles.buttonContainer}
                     onPress={props.onConfirm}
                 />
                 <Button
                     title="Cancelar"
-                    buttonStyle={styles.button}
+                    buttonStyle={{ backgroundColor: 'red', borderRadius: 5 }}
                     containerStyle={styles.buttonContainer}
                     onPress={props.onCancel}
                 />
@@ -38,11 +38,14 @@ export default function ConfirmationAlert(props) {
 
 const styles = StyleSheet.create({
     overlay: {
-        height: 200,
-        width: 200,
-        borderRadius: 10,
-        borderColor: 'green',
+        height: 265,
+        width: 265,
+        backgroundColor: '#fff',
+        borderColor: '#fff',
         borderWidth: 2,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     container: {
         flex: 1,
@@ -50,20 +53,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     img: {
-        width: 70,
-        height: 70,
+        width: 90,
+        height: 90,
     },
     text: {
-        color: 'white',
-        fontWeight: 'bold',
+        color: 'black',
         marginTop: 10,
+        textAlign: 'center'
     },
     buttons: {
         flexDirection: 'row',
         marginTop: 20,
-    },
-    button: {
-        backgroundColor: 'green',
     },
     buttonContainer: {
         marginHorizontal: 5,

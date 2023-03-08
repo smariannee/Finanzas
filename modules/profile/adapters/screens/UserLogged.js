@@ -9,6 +9,7 @@ import * as Imagepicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import SuccessAlert from '../../../../kernel/components/SuccessAlert'
 import ErrorAlert from '../../../../kernel/components/ErrorAlert'
+import ConfirmationAlert from '../../../../kernel/components/ConfirmationAlert'
 
 export default function UserLogged(props) {
   const auth = getAuth();
@@ -19,7 +20,6 @@ export default function UserLogged(props) {
   const [showConfirmationAlert, setShowConfirmationAlert] = useState(false);
 
   const uploadImage = async (uri) => {
-    setShow(true);
     const response = await fetch(uri); //obtenemos la imagen y la convertimos en un blob
     const { _bodyBlob } = response;
     const storage = getStorage();
@@ -34,7 +34,6 @@ export default function UserLogged(props) {
         updateProfile(auth.currentUser, {
           photoURL: url
         })
-        setShow(false);
         setShowSuccessAlert(true);
         setTimeout(() => {
           setShowSuccessAlert(false);
@@ -57,10 +56,9 @@ export default function UserLogged(props) {
       if (!result.canceled) {
         uploadImage(result.assets[0].uri)
         .then((response) => {
-          uploadPhotoProfile();
+          setShowConfirmationAlert(true);
         }).catch((err) => {
           console.log("error al obtener imagen", err);
-          setShow(false);
           setShowErrorAlert(true);
           setTimeout(() => {
             setShowErrorAlert(false);
@@ -99,8 +97,9 @@ export default function UserLogged(props) {
         onPress={() => auth.signOut()}
       />
       <Loading show={show} text="Actualizando" />
-      <SuccessAlert show={showSuccessAlert} text="Confirmado" />
-      <ErrorAlert show={showErrorAlert} text="Error" />
+      <SuccessAlert show={showSuccessAlert} text="Actualización exitosa" />
+      <ErrorAlert show={showErrorAlert} text="Algo salió mal" />
+      <ConfirmationAlert show={showConfirmationAlert} onConfirm={() => uploadPhotoProfile()} onCancel={() => setShowConfirmationAlert(false)} text="¿Seguro que desea realizar esta acción?"/>
     </View>
   )
 }

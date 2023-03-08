@@ -7,13 +7,13 @@ export default function SuccessAlert(props) {
   return (
     <Overlay 
         isVisible={show}
-        windowBackgroundColor="rgba(255, 255, 255, .5)"
-        overlayBackgroundColor="green"
+        windowBackgroundColor='rgba(0,0,0,0.5)'
+        overlayBackgroundColor='transparent'
         overlayStyle={styles.overlay}
     >
         <View style={styles.container}>
             <Image 
-                source={{ uri: "https://i.gifer.com/7efs.gif" }}
+                source={{ uri: "https://media.tenor.com/0AVbKGY_MxMAAAAM/check-mark-verified.gif" }}
                 style={styles.img}
             />
             {text && <Text style={styles.text}>{text}</Text>}
@@ -24,11 +24,14 @@ export default function SuccessAlert(props) {
 
 const styles = StyleSheet.create({
     overlay: {
-        height: 100,
-        width: 200,
-        borderRadius: 10,
-        borderColor: 'green',
+        height: 160,
+        width: 250,
+        backgroundColor: '#fff',
+        borderColor: '#fff',
         borderWidth: 2,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     container: {
         flex: 1,
@@ -40,8 +43,8 @@ const styles = StyleSheet.create({
         height: 70,
     },
     text: {
-        color: 'white',
-        fontWeight: 'bold',
-        marginTop: 10,
+        color: 'black',
+        marginTop: 20,
+        textAlign: 'center'
     }
 })
